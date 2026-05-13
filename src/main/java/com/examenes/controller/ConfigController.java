@@ -2,7 +2,6 @@ package com.examenes.controller;
 
 import com.examenes.MainApp;
 import com.examenes.service.ConfigService;
-import com.examenes.util.ThemeToggle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,8 +20,6 @@ public class ConfigController implements Initializable {
     @FXML private TextField githubRepoField;
     @FXML private PasswordField githubTokenField;
     @FXML private Label statusLabel;
-    @FXML private ThemeToggle themeToggle;
-
     private MainApp mainApp;
     private ConfigService config;
 
@@ -34,8 +31,6 @@ public class ConfigController implements Initializable {
         this.mainApp = mainApp;
         this.config = mainApp.getConfigService();
         loadSettings();
-        themeToggle.setDarkMode(mainApp.isDarkTheme());
-        themeToggle.setOnToggle(() -> mainApp.toggleTheme());
     }
 
     private void loadSettings() {

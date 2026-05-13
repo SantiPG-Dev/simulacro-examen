@@ -3,8 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import com.examenes.util.ThemeToggle?>
-
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.examenes.controller.ExamController"
       spacing="10" styleClass="root">
@@ -21,7 +19,8 @@
         <Label fx:id="timerCaption" text="Tiempo:" styleClass="timer-caption"/>
         <Label fx:id="timerLabel" text="60:00" styleClass="timer"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <ThemeToggle fx:id="themeToggle"/>
+        <Label fx:id="elapsedLabel" styleClass="progress-text"/>
+        <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="progressLabel" text="Pregunta 1 / 40" styleClass="progress-text"/>
     </HBox>
 
@@ -52,10 +51,11 @@
 
     <HBox spacing="10" alignment="CENTER">
         <Button fx:id="prevButton" text="Anterior" onAction="#handlePrev" prefWidth="120"/>
-        <Button fx:id="nextButton" text="Siguiente" onAction="#handleNext" prefWidth="120"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Button fx:id="finishButton" text="Finalizar" onAction="#handleFinish"
                 prefWidth="150" styleClass="danger-button"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="nextButton" text="Siguiente" onAction="#handleNext" prefWidth="120"/>
     </HBox>
 
 </VBox>

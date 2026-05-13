@@ -13,10 +13,6 @@
         <Insets top="15" right="40" bottom="40" left="40"/>
     </padding>
 
-    <HBox alignment="CENTER_RIGHT">
-        <ThemeToggle fx:id="themeToggle"/>
-    </HBox>
-
     <Label text="Simulacros de Examen" styleClass="title"/>
 
     <Label text="Preparate para tus examenes con simulacros personalizados"
@@ -39,5 +35,10 @@
     <Region prefHeight="20"/>
 
     <Label fx:id="statusLabel" wrapText="true" styleClass="status-label"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <ThemeToggle fx:id="themeToggle"/>
+    </HBox>
 
 </VBox>
