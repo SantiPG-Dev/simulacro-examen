@@ -1,0 +1,14 @@
+target/
+*.class
+*.jar
+*.log
+.idea/
+*.iml
+.vscode/
+nbproject/
+
+html/
+excel/
+
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json

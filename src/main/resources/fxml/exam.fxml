@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<fx:define>
+    <ToggleGroup fx:id="optionsGroup"/>
+</fx:define>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.examenes.controller.ExamController"
+      spacing="10" styleClass="root">
+
+    <padding>
+        <Insets top="15" right="20" bottom="15" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="timerCaption" text="Tiempo:" styleClass="timer-caption"/>
+        <Label fx:id="timerLabel" text="60:00" styleClass="timer"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="progressLabel" text="Pregunta 1 / 40" styleClass="progress-text"/>
+    </HBox>
+
+    <ProgressBar fx:id="progressBar" maxWidth="Infinity" prefHeight="8"/>
+
+    <Separator/>
+
+    <VBox fx:id="questionContent" spacing="15" VBox.vgrow="ALWAYS">
+        <Label fx:id="questionLabel" wrapText="true" styleClass="question-text"/>
+        <VBox spacing="8" styleClass="options-box">
+            <RadioButton fx:id="optA" toggleGroup="$optionsGroup" styleClass="option-radio"/>
+            <RadioButton fx:id="optB" toggleGroup="$optionsGroup" styleClass="option-radio"/>
+            <RadioButton fx:id="optC" toggleGroup="$optionsGroup" styleClass="option-radio"/>
+            <RadioButton fx:id="optD" toggleGroup="$optionsGroup" styleClass="option-radio"/>
+        </VBox>
+    </VBox>
+
+    <VBox fx:id="reviewOverlay" spacing="15" VBox.vgrow="ALWAYS"
+          visible="false" managed="false" styleClass="review-panel">
+        <Label text="SIMULACRO COMPLETADO" styleClass="review-title"/>
+        <Separator/>
+        <Label fx:id="resultLabel" wrapText="true" styleClass="result-text"/>
+    </VBox>
+
+    <Separator/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="prevButton" text="Anterior" onAction="#handlePrev" prefWidth="120"/>
+        <Button fx:id="nextButton" text="Siguiente" onAction="#handleNext" prefWidth="120"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="finishButton" text="Finalizar" onAction="#handleFinish"
+                prefWidth="150" styleClass="danger-button"/>
+    </HBox>
+
+</VBox>
