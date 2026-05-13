@@ -71,20 +71,11 @@ public class HtmlParser {
         if (s.toUpperCase().startsWith("SIMULACRO ")) {
             s = s.substring("SIMULACRO ".length());
         }
-        int colonIdx = s.indexOf(':');
-        if (colonIdx >= 0) {
-            s = s.substring(0, colonIdx);
+        int parenIdx = s.indexOf('(');
+        if (parenIdx >= 0) {
+            s = s.substring(0, parenIdx).trim();
         }
-        s = s.replaceAll("\\(.*?\\)", "").trim();
-        String[] words = s.split("\\s+");
-        StringBuilder sb = new StringBuilder();
-        for (String w : words) {
-            if (w.isEmpty()) continue;
-            sb.append(Character.toUpperCase(w.charAt(0)));
-            sb.append(w.substring(1).toLowerCase());
-            sb.append(' ');
-        }
-        return sb.toString().trim();
+        return s.trim();
     }
 
     private static String normalize(String s) {

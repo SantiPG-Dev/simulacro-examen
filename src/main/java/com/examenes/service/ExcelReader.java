@@ -92,6 +92,29 @@ public class ExcelReader {
         return subjects;
     }
 
+    public static Map<String, Integer> getSubjectQuestionCounts(String filePath) throws IOException {
+        Map<String, Integer> counts = new LinkedHashMap<>();
+        File file = new File(filePath);
+        if (!file.exists()) return counts;
+
+        try (InputStream is = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(is)) {
+            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+                Sheet sheet = workbook.getSheetAt(i);
+                int count = 0;
+                for (int r = 1; r <= sheet.getLastRowNum(); r++) {
+                    Row row = sheet.getRow(r);
+                    if (row != null) {
+                        String q = getCellValue(row.getCell(0));
+                        if (!q.isEmpty()) count++;
+                    }
+                }
+                counts.put(sheet.getSheetName(), count);
+            }
+        }
+        return counts;
+    }
+
     public static void appendQuestions(String filePath, String subject, List<Question> newQuestions) throws IOException {
         File file = new File(filePath);
         Workbook workbook;
@@ -104,7 +127,7 @@ public class ExcelReader {
             file.getParentFile().mkdirs();
         }
 
-        Sheet sheet = workbook.getSheet(subject);
+        Sheet sheet = findSheetIgnoreCase(workbook, subject);
         if (sheet == null) {
             sheet = workbook.createSheet(subject);
             createHeader(sheet);
@@ -212,6 +235,41 @@ public class ExcelReader {
                 r.createCell(j).setCellValue(rowData[j] != null ? rowData[j] : "");
             }
         }
+    }
+
+    public static void createEmptyExcel(String filePath) throws IOException {
+        File file = new File(filePath);
+        file.getParentFile().mkdirs();
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            List<String> subjects = Arrays.asList(
+                "Acceso a datos",
+                "Programacion de servicios y procesos",
+                "Sistemas de gestion empresarial",
+                "Desarrollo de interfaces",
+                "Programacion multimedia y dispositivos moviles",
+                "Itinerario para la empleabilidad 2",
+                "Ingles",
+                "Big data"
+            );
+            for (String subject : subjects) {
+                Sheet sheet = workbook.createSheet(subject);
+                createHeader(sheet);
+                sheet.createRow(1);
+            }
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                workbook.write(fos);
+            }
+        }
+    }
+
+    private static Sheet findSheetIgnoreCase(Workbook workbook, String name) {
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            if (workbook.getSheetAt(i).getSheetName().equalsIgnoreCase(name)) {
+                return workbook.getSheetAt(i);
+            }
+        }
+        return null;
     }
 
     public static void createSampleExcel(String filePath) throws IOException {

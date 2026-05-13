@@ -4,7 +4,6 @@ import com.examenes.MainApp;
 import com.examenes.model.Question;
 import com.examenes.service.ExcelReader;
 import com.examenes.service.HtmlParser;
-import com.examenes.util.ThemeToggle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,11 +18,10 @@ import java.util.stream.Collectors;
 
 public class MenuController implements Initializable {
 
-    private static final String EXCEL_PATH = "excel/BateriaPreguntas.xlsx";
+    private static final String EXCEL_PATH = new File("excel/BateriaPreguntas.xlsx").getAbsolutePath();
     private static final int NUM_QUESTIONS = 40;
 
     @FXML private Label statusLabel;
-    @FXML private ThemeToggle themeToggle;
 
     private MainApp mainApp;
 
@@ -33,8 +31,6 @@ public class MenuController implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-        themeToggle.setDarkMode(mainApp.isDarkTheme());
-        themeToggle.setOnToggle(() -> mainApp.toggleTheme());
     }
 
     @FXML
@@ -71,6 +67,7 @@ public class MenuController implements Initializable {
     private void importHtml() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Importar preguntas desde HTML");
+        fc.setInitialDirectory(new File("html").getAbsoluteFile());
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML files", "*.html", "*.htm"));
         File selected = fc.showOpenDialog(null);
         if (selected == null) return;

@@ -58,7 +58,7 @@ public class TestHarness {
 
         // --- Test 3: Manually inject duplicates, then append → dedup should clean them ---
         System.out.println("--- Test 3: Inject duplicates then append ---");
-        String testSubject = "Acceso A Datos";
+        String testSubject = "ACCESO A DATOS";
         List<Question> existing = ExcelReader.readQuestions(XLSX_PATH, testSubject);
         if (existing.size() >= 2) {
             Question dup1 = existing.get(0);

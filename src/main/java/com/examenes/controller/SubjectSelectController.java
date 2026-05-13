@@ -14,13 +14,13 @@ import java.io.File;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import static com.examenes.service.ExcelReader.createSampleExcel;
 
 public class SubjectSelectController implements Initializable {
 
-    private static final String EXCEL_PATH = "excel/BateriaPreguntas.xlsx";
+    private static final String EXCEL_PATH = new File("excel/BateriaPreguntas.xlsx").getAbsolutePath();
     private static final int NUM_QUESTIONS = 40;
     private static final int TIME_MINUTES = 40;
 
@@ -38,17 +38,21 @@ public class SubjectSelectController implements Initializable {
 
     public void loadSubjects() {
         try {
+            buttonContainer.getChildren().clear();
             File file = new File(EXCEL_PATH);
             if (!file.exists()) {
-                createSampleExcel(EXCEL_PATH);
+                ExcelReader.createEmptyExcel(EXCEL_PATH);
             }
-            List<String> subjects = ExcelReader.getSubjects(EXCEL_PATH);
-            if (subjects.isEmpty()) {
+            Map<String, Integer> subjectCounts = ExcelReader.getSubjectQuestionCounts(EXCEL_PATH);
+            if (subjectCounts.isEmpty()) {
                 statusLabel.setText("El banco de preguntas esta vacio.");
                 return;
             }
-            for (String subject : subjects) {
-                Button btn = new Button(subject);
+            for (Map.Entry<String, Integer> entry : subjectCounts.entrySet()) {
+                String subject = entry.getKey();
+                int count = entry.getValue();
+                String label = count + " preguntas";
+                Button btn = new Button(subject + "  (" + label + ")");
                 btn.setMaxWidth(360);
                 btn.setPrefHeight(48);
                 btn.getStyleClass().add("primary-button");
