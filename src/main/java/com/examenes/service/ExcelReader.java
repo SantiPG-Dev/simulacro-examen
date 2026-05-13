@@ -141,7 +141,7 @@ public class ExcelReader {
             if (row != null) {
                 String qtext = getCellValue(row.getCell(0));
                 if (!qtext.isEmpty()) {
-                    existingQuestions.add(qtext);
+                    existingQuestions.add(HtmlParser.stripLeadingNumber(qtext));
                 }
             }
         }
@@ -150,9 +150,10 @@ public class ExcelReader {
         int added = 0;
         Set<String> seenInBatch = new HashSet<>();
         for (Question q : newQuestions) {
-            if (existingQuestions.contains(q.getQuestion())) continue;
-            if (seenInBatch.contains(q.getQuestion())) continue;
-            seenInBatch.add(q.getQuestion());
+            String normalized = HtmlParser.stripLeadingNumber(q.getQuestion());
+            if (existingQuestions.contains(normalized)) continue;
+            if (seenInBatch.contains(normalized)) continue;
+            seenInBatch.add(normalized);
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(q.getQuestion());
             List<String> opts = q.getOptions();
@@ -212,10 +213,12 @@ public class ExcelReader {
             Row row = sheet.getRow(i);
             if (row == null) continue;
             String qtext = getCellValue(row.getCell(0));
-            if (qtext.isEmpty() || seen.contains(qtext)) continue;
-            seen.add(qtext);
+            String normalized = HtmlParser.stripLeadingNumber(qtext);
+            if (normalized.isEmpty() || seen.contains(normalized)) continue;
+            seen.add(normalized);
             String[] rowData = new String[6];
-            for (int j = 0; j < 6; j++) {
+            rowData[0] = normalized;
+            for (int j = 1; j < 6; j++) {
                 rowData[j] = getCellValue(row.getCell(j));
             }
             rows.add(rowData);

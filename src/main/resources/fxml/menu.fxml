@@ -32,13 +32,10 @@
     <Button text="Configuracion" onAction="#handleConfig"
             maxWidth="360" prefHeight="48" styleClass="secondary-button"/>
 
+    <ThemeToggle fx:id="themeToggle"/>
+
     <Region prefHeight="20"/>
 
     <Label fx:id="statusLabel" wrapText="true" styleClass="status-label"/>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Region HBox.hgrow="ALWAYS"/>
-        <ThemeToggle fx:id="themeToggle"/>
-    </HBox>
 
 </VBox>

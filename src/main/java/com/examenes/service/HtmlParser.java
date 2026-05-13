@@ -21,7 +21,7 @@ public class HtmlParser {
         Elements questionBlocks = doc.select(".que.multichoice");
         for (Element block : questionBlocks) {
             String qtext = block.selectFirst("div.qtext .clearfix") != null
-                    ? block.selectFirst("div.qtext .clearfix").wholeText().trim()
+                    ? stripLeadingNumber(block.selectFirst("div.qtext .clearfix").wholeText().trim())
                     : "";
 
             if (qtext.isEmpty()) continue;
@@ -82,5 +82,10 @@ public class HtmlParser {
         String r = s.strip();
         if (r.endsWith(".")) r = r.substring(0, r.length() - 1).strip();
         return r;
+    }
+
+    public static String stripLeadingNumber(String text) {
+        if (text == null || text.isEmpty()) return text;
+        return text.replaceFirst("^\\d+[\\.\\)]\\s+", "").trim();
     }
 }
