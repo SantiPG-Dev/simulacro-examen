@@ -3,6 +3,7 @@ package com.examenes.controller;
 import com.examenes.MainApp;
 import com.examenes.model.ExamResult;
 import com.examenes.service.HistoryManager;
+import com.examenes.util.ThemeToggle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,6 +31,7 @@ public class HistoryController implements Initializable {
     @FXML private TableColumn<ExamResultRow, Double> scoreCol;
     @FXML private Label summaryLabel;
     @FXML private Button clearButton;
+    @FXML private ThemeToggle themeToggle;
 
     private MainApp mainApp;
 
@@ -66,6 +68,8 @@ public class HistoryController implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        themeToggle.setDarkMode(mainApp.isDarkTheme());
+        themeToggle.setOnToggle(() -> mainApp.toggleTheme());
     }
 
     private void loadHistory() {

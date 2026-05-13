@@ -224,3 +224,55 @@
 .scroll-pane {
     -fx-background-color: transparent;
 }
+
+.theme-toggle-container {
+    -fx-padding: 4 0;
+}
+
+.theme-icon {
+    -fx-font-size: 18px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.theme-track {
+    -fx-background-color: #d5d8dc;
+    -fx-background-radius: 11;
+}
+
+.theme-thumb {
+    -fx-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 1, 0, 0, 1);
+}
+
+.theme-switch-pane {
+    -fx-cursor: hand;
+}
+
+.theme-switch-light {
+    -fx-background-color: #d5d8dc;
+    -fx-background-radius: 11;
+}
+
+.theme-switch-dark {
+    -fx-background-color: #5dade2;
+    -fx-background-radius: 11;
+}
+
+.config-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #2c3e50;
+}
+
+.small-button {
+    -fx-font-size: 12px;
+    -fx-padding: 6 14;
+    -fx-background-radius: 4;
+}
+
+.secondary-button {
+    -fx-background-color: #95a5a6;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #7f8c8d;
+}

@@ -79,4 +79,16 @@ public class ConfigService {
         set("html.folder", folder);
     }
 
+    public String getTheme() {
+        return get("theme", "light");
+    }
+
+    public void setTheme(String theme) {
+        set("theme", theme);
+    }
+
+    public boolean isDarkTheme() {
+        return "dark".equals(getTheme());
+    }
+
 }

@@ -3,6 +3,7 @@ package com.examenes.controller;
 import com.examenes.MainApp;
 import com.examenes.model.Question;
 import com.examenes.service.ExcelReader;
+import com.examenes.util.ThemeToggle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +27,7 @@ public class SubjectSelectController implements Initializable {
 
     @FXML private VBox buttonContainer;
     @FXML private Label statusLabel;
+    @FXML private ThemeToggle themeToggle;
 
     private MainApp mainApp;
 
@@ -35,6 +37,8 @@ public class SubjectSelectController implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        themeToggle.setDarkMode(mainApp.isDarkTheme());
+        themeToggle.setOnToggle(() -> mainApp.toggleTheme());
     }
 
     public void loadSubjects() {

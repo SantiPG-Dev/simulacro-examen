@@ -5,6 +5,7 @@ import com.examenes.model.AnsweredQuestion;
 import com.examenes.model.ExamResult;
 import com.examenes.model.Question;
 import com.examenes.service.HistoryManager;
+import com.examenes.util.ThemeToggle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -44,6 +45,7 @@ public class ExamController implements Initializable {
     @FXML private VBox questionContent;
     @FXML private Label timerCaption;
     @FXML private Label feedbackLabel;
+    @FXML private ThemeToggle themeToggle;
 
     private MainApp mainApp;
     private List<Question> questions;
@@ -62,6 +64,8 @@ public class ExamController implements Initializable {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+        themeToggle.setDarkMode(mainApp.isDarkTheme());
+        themeToggle.setOnToggle(() -> mainApp.toggleTheme());
     }
 
     public void initExam(List<Question> questions, String subject, int timeMinutes) {

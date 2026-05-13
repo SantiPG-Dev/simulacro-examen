@@ -6,6 +6,7 @@ import com.examenes.controller.HistoryController;
 import com.examenes.controller.MenuController;
 import com.examenes.controller.SubjectSelectController;
 import com.examenes.model.Question;
+import com.examenes.service.ConfigService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,10 +18,14 @@ import java.util.List;
 public class MainApp extends Application {
 
     private Stage primaryStage;
+    private ConfigService configService;
+    private boolean isDarkTheme;
 
     @Override
     public void start(Stage stage) throws Exception {
         this.primaryStage = stage;
+        configService = new ConfigService();
+        isDarkTheme = configService.isDarkTheme();
         showMenu();
         stage.setTitle("Simulacros de Examen");
         stage.setResizable(false);
@@ -72,7 +77,38 @@ public class MainApp extends Application {
     private void setScene(VBox root) {
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        if (isDarkTheme) {
+            scene.getStylesheets().add(getClass().getResource("/dark-theme.css").toExternalForm());
+        }
         primaryStage.setScene(scene);
+    }
+
+    public boolean isDarkTheme() {
+        return isDarkTheme;
+    }
+
+    public void toggleTheme() {
+        isDarkTheme = !isDarkTheme;
+        configService.setTheme(isDarkTheme ? "dark" : "light");
+        configService.save();
+        refreshCurrentScene();
+    }
+
+    private void refreshCurrentScene() {
+        Scene scene = primaryStage.getScene();
+        if (scene == null) return;
+        String darkCss = getClass().getResource("/dark-theme.css").toExternalForm();
+        if (isDarkTheme) {
+            if (!scene.getStylesheets().contains(darkCss)) {
+                scene.getStylesheets().add(darkCss);
+            }
+        } else {
+            scene.getStylesheets().remove(darkCss);
+        }
+    }
+
+    public ConfigService getConfigService() {
+        return configService;
     }
 
     public static void main(String[] args) {
