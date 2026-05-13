@@ -9,37 +9,27 @@
       spacing="15" alignment="CENTER" styleClass="root">
 
     <padding>
-        <Insets top="40" right="40" bottom="40" left="40"/>
+        <Insets top="50" right="40" bottom="40" left="40"/>
     </padding>
 
-    <Label text="Simulacro de Examen" styleClass="title"/>
+    <Label text="Simulacros de Examen" styleClass="title"/>
 
     <Label text="Preparate para tus examenes con simulacros personalizados"
            styleClass="subtitle" wrapText="true"/>
 
-    <Region prefHeight="30"/>
-
-    <VBox spacing="8" maxWidth="400">
-        <Label text="Selecciona la asignatura:"/>
-        <ComboBox fx:id="subjectCombo" maxWidth="400"/>
-    </VBox>
-
-    <Region prefHeight="20"/>
+    <Region prefHeight="40"/>
 
     <Button text="Iniciar Simulacro" onAction="#handleStart"
-            maxWidth="300" prefHeight="40" styleClass="primary-button"/>
+            maxWidth="360" prefHeight="48" styleClass="primary-button"/>
 
-    <Button text="Ver Historial" onAction="#handleHistory"
-            maxWidth="300" prefHeight="40"/>
+    <Button text="Importar Datos" onAction="#handleImport"
+            maxWidth="360" prefHeight="48"/>
 
-    <Button text="Generar Preguntas de Ejemplo" onAction="#handleGenerateSample"
-            maxWidth="300" prefHeight="40"/>
+    <Button text="Exportar Datos" onAction="#handleExport"
+            maxWidth="360" prefHeight="48"/>
 
-    <Button text="Importar HTML" onAction="#handleImportHtml"
-            maxWidth="300" prefHeight="40"/>
-
-    <Button text="Salir" onAction="#handleExit"
-            maxWidth="300" prefHeight="40" styleClass="danger-button"/>
+    <Button text="Configuracion" onAction="#handleConfig"
+            maxWidth="360" prefHeight="48" styleClass="secondary-button"/>
 
     <Region prefHeight="20"/>
 

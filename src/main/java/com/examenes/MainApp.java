@@ -1,6 +1,7 @@
 package com.examenes;
 
 import com.examenes.controller.ExamController;
+import com.examenes.controller.ConfigController;
 import com.examenes.controller.HistoryController;
 import com.examenes.controller.MenuController;
 import com.examenes.model.Question;
@@ -20,7 +21,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         this.primaryStage = stage;
         showMenu();
-        stage.setTitle("Simulacro de Examen");
+        stage.setTitle("Simulacros de Examen");
         stage.setResizable(false);
         stage.show();
     }
@@ -46,6 +47,14 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/history.fxml"));
         VBox root = loader.load();
         HistoryController controller = loader.getController();
+        controller.setMainApp(this);
+        setScene(root);
+    }
+
+    public void showConfig() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/config.fxml"));
+        VBox root = loader.load();
+        ConfigController controller = loader.getController();
         controller.setMainApp(this);
         setScene(root);
     }
