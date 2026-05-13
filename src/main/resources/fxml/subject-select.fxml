@@ -3,13 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.examenes.controller.SubjectSelectController"
       spacing="15" alignment="CENTER" styleClass="root">
 
     <padding>
-        <Insets top="50" right="40" bottom="40" left="40"/>
+        <Insets top="15" right="40" bottom="40" left="40"/>
     </padding>
 
     <Label text="Seleccionar Asignatura" styleClass="title"/>

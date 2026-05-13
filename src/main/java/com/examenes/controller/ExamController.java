@@ -28,6 +28,7 @@ public class ExamController implements Initializable {
     private static final int PHASE_REVIEW = 2;
 
     @FXML private Label timerLabel;
+    @FXML private Label elapsedLabel;
     @FXML private Label progressLabel;
     @FXML private ProgressBar progressBar;
     @FXML private Label questionLabel;
@@ -44,7 +45,6 @@ public class ExamController implements Initializable {
     @FXML private VBox questionContent;
     @FXML private Label timerCaption;
     @FXML private Label feedbackLabel;
-
     private MainApp mainApp;
     private List<Question> questions;
     private int[] userAnswers;
@@ -375,6 +375,9 @@ public class ExamController implements Initializable {
         int minutes = remainingSeconds / 60;
         int seconds = remainingSeconds % 60;
         timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
+
+        int elapsedMinutes = (totalSeconds - remainingSeconds) / 60;
+        elapsedLabel.setText("Pregunta " + (elapsedMinutes + 1));
 
         timerLabel.getStyleClass().remove("timer-warning");
         if (remainingSeconds < 300) {

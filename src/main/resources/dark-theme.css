@@ -1,0 +1,260 @@
+.root {
+    -fx-background-color: #1e1e2e;
+}
+
+.title {
+    -fx-text-fill: #cdd6f4;
+}
+
+.subtitle {
+    -fx-text-fill: #a6adc8;
+}
+
+.button {
+    -fx-background-color: #45475a;
+    -fx-text-fill: #cdd6f4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0, 0, 1);
+}
+
+.button:hover {
+    -fx-background-color: #585b70;
+}
+
+.button:pressed {
+    -fx-background-color: #6c7086;
+}
+
+.button:disabled {
+    -fx-background-color: #313244;
+    -fx-text-fill: #585b70;
+}
+
+.primary-button {
+    -fx-background-color: #a6e3a1;
+    -fx-text-fill: #1e1e2e;
+}
+
+.primary-button:hover {
+    -fx-background-color: #94e2d5;
+}
+
+.danger-button {
+    -fx-background-color: #f38ba8;
+    -fx-text-fill: #1e1e2e;
+}
+
+.danger-button:hover {
+    -fx-background-color: #eba0ac;
+}
+
+.secondary-button {
+    -fx-background-color: #585b70;
+    -fx-text-fill: #cdd6f4;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #6c7086;
+}
+
+.combo-box {
+    -fx-background-color: #313244;
+    -fx-border-color: #45475a;
+    -fx-text-fill: #cdd6f4;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #cdd6f4;
+}
+
+.combo-box .list-view {
+    -fx-background-color: #313244;
+}
+
+.combo-box .list-view .list-cell:hover {
+    -fx-background-color: #45475a;
+}
+
+.status-label {
+    -fx-text-fill: #a6adc8;
+}
+
+.timer-caption {
+    -fx-text-fill: #a6adc8;
+}
+
+.timer {
+    -fx-text-fill: #cdd6f4;
+}
+
+.timer-warning {
+    -fx-text-fill: #f38ba8;
+}
+
+.progress-text {
+    -fx-text-fill: #a6adc8;
+}
+
+.progress-bar > .track {
+    -fx-background-color: #313244;
+}
+
+.question-text {
+    -fx-text-fill: #cdd6f4;
+}
+
+.options-box {
+    -fx-background-color: #313244;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+.option-radio {
+    -fx-background-color: #313244;
+    -fx-border-color: #45475a;
+    -fx-text-fill: #cdd6f4;
+}
+
+.option-radio:hover {
+    -fx-background-color: #45475a;
+}
+
+.option-radio:selected {
+    -fx-background-color: #45475a;
+    -fx-border-color: #89b4fa;
+}
+
+.correct-option {
+    -fx-background-color: #1e3a2f;
+    -fx-border-color: #a6e3a1;
+    -fx-text-fill: #a6e3a1;
+}
+
+.incorrect-option {
+    -fx-background-color: #3a1e2e;
+    -fx-border-color: #f38ba8;
+    -fx-text-fill: #f38ba8;
+}
+
+.feedback-label {
+    -fx-text-fill: #cdd6f4;
+}
+
+.review-panel {
+    -fx-background-color: #313244;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 4);
+}
+
+.review-title {
+    -fx-text-fill: #cdd6f4;
+}
+
+.result-text {
+    -fx-text-fill: #cdd6f4;
+}
+
+.table-view {
+    -fx-background-color: #313244;
+    -fx-border-color: #45475a;
+}
+
+.table-view .column-header {
+    -fx-background-color: #45475a;
+    -fx-border-color: #585b70;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #cdd6f4;
+}
+
+.table-row-cell {
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #2a2a3c;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #45475a;
+}
+
+.table-row-cell .label {
+    -fx-text-fill: #cdd6f4;
+}
+
+.table-cell {
+    -fx-text-fill: #cdd6f4;
+}
+
+.separator {
+    -fx-background-color: #45475a;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-field {
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-prompt-text-fill: #585b70;
+}
+
+.text-field:focused {
+    -fx-border-color: #89b4fa;
+}
+
+.password-field {
+    -fx-background-color: #313244;
+    -fx-text-fill: #cdd6f4;
+    -fx-border-color: #45475a;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-prompt-text-fill: #585b70;
+}
+
+.password-field:focused {
+    -fx-border-color: #89b4fa;
+}
+
+.config-label {
+    -fx-text-fill: #cdd6f4;
+    -fx-font-size: 13px;
+}
+
+.small-button {
+    -fx-background-color: #585b70;
+    -fx-text-fill: #cdd6f4;
+}
+
+.small-button:hover {
+    -fx-background-color: #6c7086;
+}
+
+.theme-icon {
+    -fx-text-fill: #cdd6f4;
+    -fx-font-size: 18px;
+}
+
+.theme-track {
+    -fx-background-color: #585b70;
+    -fx-background-radius: 11;
+}
+
+.theme-thumb {
+    -fx-fill: #cdd6f4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 1, 0, 0, 1);
+}
+
+.theme-switch-light {
+    -fx-background-color: #585b70;
+    -fx-background-radius: 11;
+}
+
+.theme-switch-dark {
+    -fx-background-color: #89b4fa;
+    -fx-background-radius: 11;
+}

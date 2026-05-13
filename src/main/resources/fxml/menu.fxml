@@ -3,13 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import com.examenes.util.ThemeToggle?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.examenes.controller.MenuController"
       spacing="15" alignment="CENTER" styleClass="root">
 
     <padding>
-        <Insets top="50" right="40" bottom="40" left="40"/>
+        <Insets top="15" right="40" bottom="40" left="40"/>
     </padding>
 
     <Label text="Simulacros de Examen" styleClass="title"/>
@@ -34,5 +35,10 @@
     <Region prefHeight="20"/>
 
     <Label fx:id="statusLabel" wrapText="true" styleClass="status-label"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <ThemeToggle fx:id="themeToggle"/>
+    </HBox>
 
 </VBox>

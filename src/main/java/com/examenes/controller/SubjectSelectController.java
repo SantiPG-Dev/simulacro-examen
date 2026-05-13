@@ -26,7 +26,6 @@ public class SubjectSelectController implements Initializable {
 
     @FXML private VBox buttonContainer;
     @FXML private Label statusLabel;
-
     private MainApp mainApp;
 
     @Override

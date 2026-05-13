@@ -30,7 +30,6 @@ public class HistoryController implements Initializable {
     @FXML private TableColumn<ExamResultRow, Double> scoreCol;
     @FXML private Label summaryLabel;
     @FXML private Button clearButton;
-
     private MainApp mainApp;
 
     @Override
