@@ -4,13 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<fx:define>
-    <ToggleGroup fx:id="optionsGroup"/>
-</fx:define>
-
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.examenes.controller.ExamController"
       spacing="10" styleClass="root">
+
+    <fx:define>
+        <ToggleGroup fx:id="optionsGroup"/>
+    </fx:define>
 
     <padding>
         <Insets top="15" right="20" bottom="15" left="20"/>
@@ -35,6 +35,8 @@
             <RadioButton fx:id="optC" toggleGroup="$optionsGroup" styleClass="option-radio"/>
             <RadioButton fx:id="optD" toggleGroup="$optionsGroup" styleClass="option-radio"/>
         </VBox>
+        <Label fx:id="feedbackLabel" wrapText="true" styleClass="feedback-label"
+               visible="false" managed="false"/>
     </VBox>
 
     <VBox fx:id="reviewOverlay" spacing="15" VBox.vgrow="ALWAYS"

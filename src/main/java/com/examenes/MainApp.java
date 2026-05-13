@@ -4,6 +4,7 @@ import com.examenes.controller.ExamController;
 import com.examenes.controller.ConfigController;
 import com.examenes.controller.HistoryController;
 import com.examenes.controller.MenuController;
+import com.examenes.controller.SubjectSelectController;
 import com.examenes.model.Question;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +57,15 @@ public class MainApp extends Application {
         VBox root = loader.load();
         ConfigController controller = loader.getController();
         controller.setMainApp(this);
+        setScene(root);
+    }
+
+    public void showSubjectSelect() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/subject-select.fxml"));
+        VBox root = loader.load();
+        SubjectSelectController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.loadSubjects();
         setScene(root);
     }
 

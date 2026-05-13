@@ -24,7 +24,6 @@ public class MenuController implements Initializable {
     @FXML private Label statusLabel;
 
     private MainApp mainApp;
-    private List<Question> allQuestions;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -42,22 +41,7 @@ public class MenuController implements Initializable {
                 statusLabel.setText("No hay banco de preguntas. Importa datos primero.");
                 return;
             }
-
-            allQuestions = ExcelReader.readQuestions(EXCEL_PATH);
-
-            if (allQuestions.isEmpty()) {
-                statusLabel.setText("El banco de preguntas esta vacio.");
-                return;
-            }
-
-            Collections.shuffle(allQuestions);
-
-            int numQuestions = Math.min(NUM_QUESTIONS, allQuestions.size());
-            List<Question> examQuestions = allQuestions.subList(0, numQuestions);
-
-            int timeMinutes = Math.max(10, numQuestions * 90 / 60);
-
-            mainApp.showExam(examQuestions, "Todas las asignaturas", timeMinutes);
+            mainApp.showSubjectSelect();
         } catch (Exception e) {
             statusLabel.setText("Error: " + e.getMessage());
         }

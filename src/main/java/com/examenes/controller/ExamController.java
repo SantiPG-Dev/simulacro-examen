@@ -43,10 +43,12 @@ public class ExamController implements Initializable {
     @FXML private Label resultLabel;
     @FXML private VBox questionContent;
     @FXML private Label timerCaption;
+    @FXML private Label feedbackLabel;
 
     private MainApp mainApp;
     private List<Question> questions;
     private int[] userAnswers;
+    private boolean[] questionChecked;
     private int currentIndex;
     private int phase;
     private int remainingSeconds;
@@ -68,6 +70,7 @@ public class ExamController implements Initializable {
         this.totalSeconds = timeMinutes * 60;
         this.remainingSeconds = totalSeconds;
         this.userAnswers = new int[questions.size()];
+        this.questionChecked = new boolean[questions.size()];
         for (int i = 0; i < userAnswers.length; i++) userAnswers[i] = -1;
 
         this.currentIndex = 0;
@@ -79,6 +82,8 @@ public class ExamController implements Initializable {
         questionContent.setManaged(true);
         timerCaption.setVisible(true);
         timerLabel.setVisible(true);
+
+        nextButton.setText("Comprobar");
 
         showQuestion(0);
         startTimer();
@@ -96,13 +101,21 @@ public class ExamController implements Initializable {
         RadioButton[] radios = {optA, optB, optC, optD};
         for (int i = 0; i < 4; i++) {
             radios[i].setText((char) ('A' + i) + ". " + q.getOptions().get(i));
-            radios[i].setDisable(false);
+            radios[i].setDisable(questionChecked[index]);
             radios[i].getStyleClass().removeAll("correct-option", "incorrect-option");
         }
 
         optionsGroup.selectToggle(null);
         if (userAnswers[index] >= 0) {
             selectRadio(userAnswers[index]);
+        }
+
+        feedbackLabel.setVisible(false);
+        feedbackLabel.setManaged(false);
+        nextButton.setText(questionChecked[index] ? "Siguiente" : "Comprobar");
+
+        if (questionChecked[index]) {
+            showFeedbackStyles(index);
         }
 
         updateNavButtons();
@@ -152,7 +165,9 @@ public class ExamController implements Initializable {
             if (phase == PHASE_REVIEW) {
                 showReviewQuestion(target);
             } else {
-                saveCurrentAnswer();
+                if (!questionChecked[currentIndex]) {
+                    saveCurrentAnswer();
+                }
                 showQuestion(target);
             }
         }
@@ -165,9 +180,52 @@ public class ExamController implements Initializable {
                 showReviewQuestion(currentIndex + 1);
             }
         } else {
-            saveCurrentAnswer();
-            if (currentIndex < questions.size() - 1) {
+            if (!questionChecked[currentIndex]) {
+                checkCurrentAnswer();
+            } else if (currentIndex < questions.size() - 1) {
                 showQuestion(currentIndex + 1);
+            }
+        }
+    }
+
+    private void checkCurrentAnswer() {
+        saveCurrentAnswer();
+        questionChecked[currentIndex] = true;
+
+        RadioButton[] radios = {optA, optB, optC, optD};
+        for (RadioButton rb : radios) rb.setDisable(true);
+
+        showFeedbackStyles(currentIndex);
+
+        Question q = questions.get(currentIndex);
+        int selected = userAnswers[currentIndex];
+        int correctIdx = q.getCorrectIndex();
+
+        if (selected < 0) {
+            feedbackLabel.setText("Sin responder. Respuesta correcta: " + (char) ('A' + correctIdx));
+        } else if (selected == correctIdx) {
+            feedbackLabel.setText("Correcto!");
+        } else {
+            feedbackLabel.setText("Incorrecto. Respuesta correcta: " + (char) ('A' + correctIdx));
+        }
+        feedbackLabel.setVisible(true);
+        feedbackLabel.setManaged(true);
+
+        nextButton.setText(currentIndex < questions.size() - 1 ? "Siguiente" : "Finalizar");
+        updateNavButtons();
+    }
+
+    private void showFeedbackStyles(int index) {
+        Question q = questions.get(index);
+        int selected = userAnswers[index];
+        int correctIdx = q.getCorrectIndex();
+        RadioButton[] radios = {optA, optB, optC, optD};
+        for (int i = 0; i < 4; i++) {
+            radios[i].getStyleClass().removeAll("correct-option", "incorrect-option");
+            if (i == correctIdx) {
+                radios[i].getStyleClass().add("correct-option");
+            } else if (selected == i) {
+                radios[i].getStyleClass().add("incorrect-option");
             }
         }
     }
@@ -189,7 +247,9 @@ public class ExamController implements Initializable {
     }
 
     private void confirmFinishExam() {
-        saveCurrentAnswer();
+        if (!questionChecked[currentIndex]) {
+            checkCurrentAnswer();
+        }
 
         int unanswered = 0;
         for (int ans : userAnswers) {
@@ -243,7 +303,7 @@ public class ExamController implements Initializable {
 
     private void showResultScreen(int correct, int incorrect, int blank, int timeSpent) {
         int total = questions.size();
-        double score = (double) correct / total * 100;
+        double score = (double) correct / total * 10;
         String min = String.format("%02d", timeSpent / 60);
         String sec = String.format("%02d", timeSpent % 60);
 
@@ -252,7 +312,7 @@ public class ExamController implements Initializable {
                 + "Aciertos:       " + correct + " / " + total + "\n"
                 + "Fallos:         " + incorrect + "\n"
                 + "Sin responder:  " + blank + "\n"
-                + "Nota:           " + String.format("%.1f%%", score) + "\n"
+                + "Nota:           " + String.format("%.1f", score) + "\n"
                 + "Tiempo:         " + min + ":" + sec
         );
 

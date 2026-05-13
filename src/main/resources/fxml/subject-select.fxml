@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.examenes.controller.SubjectSelectController"
+      spacing="15" alignment="CENTER" styleClass="root">
+
+    <padding>
+        <Insets top="50" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <Label text="Seleccionar Asignatura" styleClass="title"/>
+
+    <Label text="Elige una asignatura para iniciar el simulacro"
+           styleClass="subtitle" wrapText="true"/>
+
+    <Region prefHeight="20"/>
+
+    <VBox fx:id="buttonContainer" spacing="10" alignment="CENTER"/>
+
+    <Region prefHeight="20"/>
+
+    <Label fx:id="statusLabel" wrapText="true" styleClass="status-label"/>
+
+    <Button text="Volver" onAction="#handleBack"
+            maxWidth="200" prefHeight="40" styleClass="secondary-button"/>
+
+</VBox>

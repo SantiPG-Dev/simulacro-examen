@@ -158,6 +158,13 @@
     -fx-font-weight: bold;
 }
 
+.feedback-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 0 0 0;
+    -fx-text-fill: #2c3e50;
+}
+
 .review-panel {
     -fx-background-color: white;
     -fx-background-radius: 8;
