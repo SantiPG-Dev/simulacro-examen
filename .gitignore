@@ -17,5 +17,5 @@ app.ico
 
 plugins/
 
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
+.obsidian/
+
