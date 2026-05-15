@@ -11,17 +11,17 @@
 }
 
 .button {
-    -fx-background-color: #45475a;
-    -fx-text-fill: #cdd6f4;
+    -fx-background-color: #7aa2f7;
+    -fx-text-fill: #1e1e2e;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0, 0, 1);
 }
 
 .button:hover {
-    -fx-background-color: #585b70;
+    -fx-background-color: #89b4fa;
 }
 
 .button:pressed {
-    -fx-background-color: #6c7086;
+    -fx-background-color: #6c90e6;
 }
 
 .button:disabled {
@@ -226,12 +226,31 @@
 }
 
 .small-button {
-    -fx-background-color: #585b70;
-    -fx-text-fill: #cdd6f4;
+    -fx-background-color: #7aa2f7;
+    -fx-text-fill: #1e1e2e;
 }
 
 .small-button:hover {
-    -fx-background-color: #6c7086;
+    -fx-background-color: #89b4fa;
+}
+
+.footer-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6c7086;
+    -fx-text-alignment: center;
+}
+
+.footer-link {
+    -fx-font-size: 11px;
+    -fx-text-fill: #89b4fa;
+    -fx-text-alignment: center;
+    -fx-border-width: 0;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.footer-link:hover {
+    -fx-text-fill: #b4d0fb;
 }
 
 .theme-icon {

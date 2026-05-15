@@ -3,6 +3,7 @@
   <img src="https://img.shields.io/badge/Java-21-%23ED8B00?style=for-the-badge&logo=java&logoColor=white" alt="Java 21"/>
   <img src="https://img.shields.io/badge/JavaFX-21.0.2-0088CC?style=for-the-badge&logo=java&logoColor=white" alt="JavaFX"/>
   <img src="https://img.shields.io/badge/Maven-3.9-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven"/>
+  <img src="https://img.shields.io/badge/Licencia-Uso_restrictivo-ff69b4?style=for-the-badge" alt="Licencia"/>
   <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows"/>
 </p>
 
@@ -189,6 +190,20 @@ La aplicación extrae automáticamente la asignatura de todo lo que hay entre `S
 
 ---
 
+## 📄 Licencia
+
+Copyright © 2025 **@SantiPG-Dev**
+
+Este software es de **libre uso** — puedes ejecutarlo, copiarlo y compartirlo con quien quieras.
+
+Queda **prohibida** cualquier modificación del código fuente, así como la redistribución de versiones modificadas.
+
+Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+---
+
 <p align="center">
   <sub>Hecho con 💻 para estudiantes de CesurFP</sub>
+  <br>
+  <sub>© 2025 @SantiPG-Dev</sub>
 </p>

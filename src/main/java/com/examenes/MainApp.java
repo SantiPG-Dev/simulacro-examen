@@ -1,3 +1,10 @@
+/*
+ * Simulacro de Examen
+ * Copyright © 2025 @SantiPG-Dev
+ *
+ * Este software es de libre uso, pero queda PROHIBIDA cualquier
+ * modificación del código fuente. Consulta LICENSE para más detalles.
+ */
 package com.examenes;
 
 import com.examenes.controller.ExamController;

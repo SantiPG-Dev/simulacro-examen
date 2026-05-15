@@ -104,4 +104,22 @@ public class MenuController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleOpenLicense(ActionEvent event) {
+        try {
+            File licenseFile = new File("LICENSE");
+            if (!licenseFile.exists()) {
+                licenseFile = new File(
+                    System.getProperty("user.dir"), "LICENSE");
+            }
+            if (licenseFile.exists()) {
+                java.awt.Desktop.getDesktop().open(licenseFile);
+            } else {
+                statusLabel.setText("No se encuentra el archivo LICENSE.");
+            }
+        } catch (Exception e) {
+            statusLabel.setText("Error al abrir licencia: " + e.getMessage());
+        }
+    }
+
 }

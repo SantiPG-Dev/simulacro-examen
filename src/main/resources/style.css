@@ -276,3 +276,22 @@
 .secondary-button:hover {
     -fx-background-color: #7f8c8d;
 }
+
+.footer-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #95a5a6;
+    -fx-text-alignment: center;
+}
+
+.footer-link {
+    -fx-font-size: 11px;
+    -fx-text-fill: #5dade2;
+    -fx-text-alignment: center;
+    -fx-border-width: 0;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.footer-link:hover {
+    -fx-text-fill: #3498db;
+}
