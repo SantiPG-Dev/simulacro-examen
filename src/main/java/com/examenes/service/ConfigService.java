@@ -6,13 +6,15 @@ import java.util.Properties;
 
 public class ConfigService {
 
+    // Ruta del archivo de configuracion en el home del usuario
     private static final String CONFIG_FILE = "config.properties";
     private static final Path CONFIG_PATH = Paths.get(System.getProperty("user.home"), ".simulacro-examen", CONFIG_FILE);
 
+    // Ruta fija del Excel dentro del directorio de la app
     private static final String EXCEL_PATH = "excel" + File.separator + "BateriaPreguntas.xlsx";
 
-    private final Properties props;
-    private final String appDir;
+    private final Properties props; // Propiedades de configuracion
+    private final String appDir;    // Directorio donde se ejecuta la app
 
     public ConfigService() {
         props = new Properties();
@@ -20,7 +22,7 @@ public class ConfigService {
         load();
     }
 
-    /** Detecta el directorio de instalacion de la app */
+    /** Detecto el directorio de instalacion desde la ubicacion del JAR */
     private static String detectAppDir() {
         try {
             java.net.URI uri = ConfigService.class.getProtectionDomain()

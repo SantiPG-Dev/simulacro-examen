@@ -29,6 +29,7 @@ public class DataMenuController implements Initializable {
     }
 
     @FXML
+    // Abro el menu de importacion (HTML, Excel, GitHub)
     private void handleImport(ActionEvent event) {
         try {
             mainApp.showImportMenu();
@@ -38,6 +39,7 @@ public class DataMenuController implements Initializable {
     }
 
     @FXML
+    // Escaneo la carpeta de descargas y organizo los SIMULACRO*.html por asignatura
     private void handleFixWebs(ActionEvent event) {
         String downloadsPath = mainApp.getConfigService().getDownloadsFolder();
         String htmlBasePath = mainApp.getConfigService().getHtmlFolder();
@@ -54,6 +56,7 @@ public class DataMenuController implements Initializable {
                 return;
             }
 
+            // Filtro solo los archivos que empiezan por SIMULACRO
             File[] simulacroFiles = downloadsDir.listFiles((dir, name) ->
                 name.toUpperCase().startsWith("SIMULACRO") &&
                 (name.toLowerCase().endsWith(".html") || name.toLowerCase().endsWith(".htm")));
@@ -67,12 +70,14 @@ public class DataMenuController implements Initializable {
             int renamed = 0;
 
             for (File f : simulacroFiles) {
+                // Extraigo la asignatura del nombre del archivo
                 String subject = extractSubjectFromFilename(f.getName());
                 if (subject.isEmpty()) {
                     skipped++;
                     continue;
                 }
 
+                // Creo la carpeta de la asignatura si no existe
                 File subjectDir = new File(htmlBasePath, subject);
                 if (!subjectDir.exists()) {
                     subjectDir.mkdirs();
@@ -80,14 +85,17 @@ public class DataMenuController implements Initializable {
 
                 File destFile = new File(subjectDir, f.getName());
                 if (!destFile.exists()) {
+                    // Muevo el archivo si no hay conflicto
                     Files.move(f.toPath(), destFile.toPath());
                     processed++;
                 } else {
+                    // Si el archivo ya existe, comparo fechas para ver si es el mismo
                     long srcModified = f.lastModified() / 1000;
                     long dstModified = destFile.lastModified() / 1000;
                     if (srcModified == dstModified) {
                         skipped++;
                     } else {
+                        // Renombro el archivo en descargas con un sufijo (x)
                         int maxX = findMaxSuffix(subjectDir, f.getName());
                         String newName = addSuffix(f.getName(), maxX + 1);
                         File renamedFile = new File(f.getParent(), newName);

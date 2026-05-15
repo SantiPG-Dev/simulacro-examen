@@ -5,19 +5,20 @@ import java.util.List;
 
 public class ExamResult {
 
-    private LocalDateTime date;
-    private String subject;
-    private int totalQuestions;
-    private int correctAnswers;
-    private int incorrectAnswers;
-    private int blankAnswers;
-    private double score;
-    private int timeSpentSeconds;
-    private List<AnsweredQuestion> answeredQuestions;
+    private LocalDateTime date;              // Fecha y hora del simulacro
+    private String subject;                    // Asignatura evaluada
+    private int totalQuestions;                // Total de preguntas del examen
+    private int correctAnswers;                // Aciertos
+    private int incorrectAnswers;              // Fallos
+    private int blankAnswers;                  // Preguntas sin responder
+    private double score;                      // Nota en porcentaje
+    private int timeSpentSeconds;              // Tiempo empleado en segundos
+    private List<AnsweredQuestion> answeredQuestions; // Detalle de cada pregunta respondida
 
     public ExamResult() {
     }
 
+    // Calculo la nota automaticamente al crear el resultado
     public ExamResult(String subject, int totalQuestions, int correctAnswers,
                       int incorrectAnswers, int blankAnswers, int timeSpentSeconds,
                       List<AnsweredQuestion> answeredQuestions) {

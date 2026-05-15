@@ -32,11 +32,13 @@ public class MenuController implements Initializable {
         themeToggle.setOnToggle(() -> mainApp.toggleTheme());
     }
 
+    // Obtengo la ruta del Excel desde la configuracion
     private String getExcelPath() {
         return mainApp.getConfigService().getExcelPath();
     }
 
     @FXML
+    // Arranco el simulacro si hay preguntas importadas
     private void handleStart(ActionEvent event) {
         try {
             File file = new File(getExcelPath());
@@ -51,6 +53,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    // Abro el submenu de datos (importar, fix webs)
     private void handleData(ActionEvent event) {
         try {
             mainApp.showDataMenu();
@@ -60,6 +63,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    // Reviso y elimino preguntas duplicadas en todas las hojas del Excel
     private void handleReviewDuplicates(ActionEvent event) {
         try {
             File file = new File(getExcelPath());
@@ -77,6 +81,7 @@ public class MenuController implements Initializable {
             if (results.isEmpty()) {
                 alert.setContentText("No se encontraron preguntas duplicadas en ninguna hoja.");
             } else {
+                // Muestro cuantos duplicados se eliminaron por cada asignatura
                 StringBuilder sb = new StringBuilder("Duplicados eliminados por hoja:\n\n");
                 int total = 0;
                 for (var entry : results.entrySet()) {
@@ -96,6 +101,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    // Abro la pantalla de configuracion
     private void handleConfig(ActionEvent event) {
         try {
             mainApp.showConfig();
@@ -105,6 +111,7 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    // Abro el archivo LICENSE con el editor de texto por defecto
     private void handleOpenLicense(ActionEvent event) {
         try {
             File licenseFile = new File("LICENSE");

@@ -27,6 +27,7 @@ public class GitHubService {
         this.gson = new Gson();
     }
 
+    // Recorro los HTML de un repo y devuelvo todas las preguntas parseadas
     public List<Question> importHtmlFromRepo(String repo, String branch, String folder, String token)
             throws IOException, InterruptedException {
 
@@ -37,7 +38,6 @@ public class GitHubService {
             List<Question> parsed = downloadAndParse(repo, branch, path, token);
             allQuestions.addAll(parsed);
         }
-
         return allQuestions;
     }
 
