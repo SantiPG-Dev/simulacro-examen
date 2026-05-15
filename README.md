@@ -82,6 +82,32 @@ mvn clean package
 java -jar target/simulacro-examen-1.0.0.jar
 ```
 
+## 📦 Generar instalador (.exe)
+
+El proyecto incluye un script que **descarga todo lo necesario automáticamente** y genera un instalador con JavaFX incluido.
+
+```bash
+# Desde PowerShell o CMD en la carpeta del proyecto
+build-installer.bat
+```
+
+El script:
+1. Compila la app con Maven
+2. Genera el icono (si tienes Python + Pillow)
+3. Descarga WiX automáticamente si no lo tienes
+4. Genera el instalador .exe en `installer/`
+
+### Requisitos
+
+| Herramienta | Necesaria | Cómo obtenerla |
+|-------------|-----------|----------------|
+| **JDK 21** | Sí (con JavaFX) | [Liberica JDK Full](https://bell-sw.com/pages/downloads/) — JDK 21 LTS, Full, Windows, x64 |
+| **Maven** | Sí | [Apache Maven](https://maven.apache.org/download.cgi) |
+| **Python** | Opcional (icono) | `winget install Python.Python` o `pip install Pillow` |
+
+> El instalador generado pesa ~58 MB porque incluye el JRE optimizado con JavaFX.
+> La aplicación funciona sin Java instalado en el equipo de destino.
+
 ## 📁 Estructura del proyecto
 
 ```
