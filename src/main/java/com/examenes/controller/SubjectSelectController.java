@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class SubjectSelectController implements Initializable {
 
-    private static final String EXCEL_PATH = new File("excel/BateriaPreguntas.xlsx").getAbsolutePath();
     private static final int NUM_QUESTIONS = 40;
     private static final int TIME_MINUTES = 40;
 
@@ -36,14 +34,14 @@ public class SubjectSelectController implements Initializable {
         this.mainApp = mainApp;
     }
 
+    private String getExcelPath() {
+        return mainApp.getConfigService().getExcelPath();
+    }
+
     public void loadSubjects() {
         try {
             buttonContainer.getChildren().clear();
-            File file = new File(EXCEL_PATH);
-            if (!file.exists()) {
-                ExcelReader.createEmptyExcel(EXCEL_PATH);
-            }
-            Map<String, Integer> subjectCounts = ExcelReader.getSubjectQuestionCounts(EXCEL_PATH);
+            Map<String, Integer> subjectCounts = ExcelReader.getSubjectQuestionCounts(getExcelPath());
             if (subjectCounts.isEmpty()) {
                 statusLabel.setText("El banco de preguntas esta vacio.");
                 return;
@@ -61,13 +59,12 @@ public class SubjectSelectController implements Initializable {
             }
         } catch (Exception e) {
             statusLabel.setText("Error (" + e.getClass().getSimpleName() + "): " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     private void startExam(String subject) {
         try {
-            List<Question> questions = ExcelReader.readQuestions(EXCEL_PATH, subject);
+            List<Question> questions = ExcelReader.readQuestions(getExcelPath(), subject);
             if (questions.isEmpty()) {
                 statusLabel.setText("No hay preguntas para " + subject);
                 return;
@@ -78,7 +75,6 @@ public class SubjectSelectController implements Initializable {
             mainApp.showExam(examQuestions, subject, TIME_MINUTES);
         } catch (Exception e) {
             statusLabel.setText("Error (" + e.getClass().getSimpleName() + "): " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -88,7 +84,6 @@ public class SubjectSelectController implements Initializable {
             mainApp.showMenu();
         } catch (Exception e) {
             statusLabel.setText("Error (" + e.getClass().getSimpleName() + "): " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

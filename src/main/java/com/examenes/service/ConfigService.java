@@ -9,6 +9,8 @@ public class ConfigService {
     private static final String CONFIG_FILE = "config.properties";
     private static final Path CONFIG_PATH = Paths.get(System.getProperty("user.home"), ".simulacro-examen", CONFIG_FILE);
 
+    private static final String EXCEL_PATH = "excel" + File.separator + "BateriaPreguntas.xlsx";
+
     private final Properties props;
 
     public ConfigService() {
@@ -35,7 +37,7 @@ public class ConfigService {
                 props.store(os, "Simulacro Examen Config");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error guardando configuracion: " + e.getMessage());
         }
     }
 
@@ -48,11 +50,7 @@ public class ConfigService {
     }
 
     public String getExcelPath() {
-        return get("excel.path", "excel/BateriaPreguntas.xlsx");
-    }
-
-    public void setExcelPath(String path) {
-        set("excel.path", path);
+        return EXCEL_PATH;
     }
 
     public String getGithubRepo() {
@@ -77,6 +75,14 @@ public class ConfigService {
 
     public void setHtmlFolder(String folder) {
         set("html.folder", folder);
+    }
+
+    public String getDownloadsFolder() {
+        return get("downloads.folder", "");
+    }
+
+    public void setDownloadsFolder(String folder) {
+        set("downloads.folder", folder);
     }
 
     public String getTheme() {

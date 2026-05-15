@@ -23,10 +23,10 @@
     <Button text="Iniciar Simulacro" onAction="#handleStart"
             maxWidth="360" prefHeight="48" styleClass="primary-button"/>
 
-    <Button text="Importar Datos" onAction="#handleImport"
+    <Button text="Datos" onAction="#handleData"
             maxWidth="360" prefHeight="48"/>
 
-    <Button text="Exportar Datos" onAction="#handleExport"
+    <Button text="Revisar Duplicados" onAction="#handleReviewDuplicates"
             maxWidth="360" prefHeight="48"/>
 
     <Button text="Configuracion" onAction="#handleConfig"

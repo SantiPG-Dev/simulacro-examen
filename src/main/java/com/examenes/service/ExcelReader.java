@@ -141,7 +141,7 @@ public class ExcelReader {
             if (row != null) {
                 String qtext = getCellValue(row.getCell(0));
                 if (!qtext.isEmpty()) {
-                    existingQuestions.add(HtmlParser.stripLeadingNumber(qtext));
+                    existingQuestions.add(normalizeDedupKey(qtext));
                 }
             }
         }
@@ -150,7 +150,7 @@ public class ExcelReader {
         int added = 0;
         Set<String> seenInBatch = new HashSet<>();
         for (Question q : newQuestions) {
-            String normalized = HtmlParser.stripLeadingNumber(q.getQuestion());
+            String normalized = normalizeDedupKey(q.getQuestion());
             if (existingQuestions.contains(normalized)) continue;
             if (seenInBatch.contains(normalized)) continue;
             seenInBatch.add(normalized);
@@ -161,7 +161,7 @@ public class ExcelReader {
                 row.createCell(1 + j).setCellValue(opts.get(j) != null ? opts.get(j) : "");
             }
             row.createCell(5).setCellValue(String.valueOf((char) ('A' + q.getCorrectIndex())));
-            existingQuestions.add(q.getQuestion());
+            existingQuestions.add(normalized);
             added++;
         }
 
@@ -205,6 +205,18 @@ public class ExcelReader {
         };
     }
 
+    /**
+     * Normaliza el texto de una pregunta para usarlo como clave de deduplicación:
+     * elimina número inicial, colapsa espacios, quita puntuación final, pasa a minúsculas y recorta.
+     */
+    public static String normalizeDedupKey(String text) {
+        if (text == null) return "";
+        String key = HtmlParser.stripLeadingNumber(text);
+        key = key.replaceAll("\\s+", " ");
+        key = key.replaceAll("[\\p{Punct}]+$", "");
+        return key.toLowerCase().trim();
+    }
+
     private static void deduplicateSheet(Sheet sheet) {
         List<String[]> rows = new ArrayList<>();
         Set<String> seen = new HashSet<>();
@@ -213,18 +225,16 @@ public class ExcelReader {
             Row row = sheet.getRow(i);
             if (row == null) continue;
             String qtext = getCellValue(row.getCell(0));
-            String normalized = HtmlParser.stripLeadingNumber(qtext);
+            String normalized = normalizeDedupKey(qtext);
             if (normalized.isEmpty() || seen.contains(normalized)) continue;
             seen.add(normalized);
             String[] rowData = new String[6];
-            rowData[0] = normalized;
+            rowData[0] = qtext;
             for (int j = 1; j < 6; j++) {
                 rowData[j] = getCellValue(row.getCell(j));
             }
             rows.add(rowData);
         }
-
-        if (rows.size() == sheet.getLastRowNum()) return;
 
         for (int i = sheet.getLastRowNum(); i >= 1; i--) {
             Row r = sheet.getRow(i);
@@ -238,6 +248,52 @@ public class ExcelReader {
                 r.createCell(j).setCellValue(rowData[j] != null ? rowData[j] : "");
             }
         }
+    }
+
+    /**
+     * Recorre todas las hojas del Excel y elimina preguntas duplicadas dentro de cada una.
+     * Devuelve un mapa: nombreDeHoja -&gt; número de duplicados eliminados.
+     * Si el mapa está vacío, no se encontraron duplicados.
+     */
+    public static Map<String, Integer> deduplicateAllSheets(String filePath) throws IOException {
+        Map<String, Integer> results = new LinkedHashMap<>();
+        File file = new File(filePath);
+        if (!file.exists()) return results;
+
+        Workbook workbook;
+        try (InputStream is = new FileInputStream(filePath)) {
+            workbook = new XSSFWorkbook(is);
+        }
+
+        int totalRemoved = 0;
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+            int before = countQuestions(sheet);
+            deduplicateSheet(sheet);
+            int after = countQuestions(sheet);
+            int removed = before - after;
+            if (removed > 0) {
+                results.put(sheet.getSheetName(), removed);
+                totalRemoved += removed;
+            }
+        }
+
+        if (totalRemoved > 0) {
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                workbook.write(fos);
+            }
+        }
+        workbook.close();
+        return results;
+    }
+
+    private static int countQuestions(Sheet sheet) {
+        int count = 0;
+        for (int r = 1; r <= sheet.getLastRowNum(); r++) {
+            Row row = sheet.getRow(r);
+            if (row != null && !getCellValue(row.getCell(0)).isEmpty()) count++;
+        }
+        return count;
     }
 
     public static void createEmptyExcel(String filePath) throws IOException {

@@ -15,6 +15,15 @@ public class HtmlParser {
 
     public static List<Question> parse(File htmlFile) throws IOException {
         Document doc = Jsoup.parse(htmlFile, "UTF-8");
+        return parseDocument(doc);
+    }
+
+    public static List<Question> parseContent(String html) {
+        Document doc = Jsoup.parse(html);
+        return parseDocument(doc);
+    }
+
+    private static List<Question> parseDocument(Document doc) {
         String subject = extractSubject(doc.title());
         List<Question> questions = new ArrayList<>();
 
@@ -67,10 +76,11 @@ public class HtmlParser {
     }
 
     static String extractSubject(String title) {
-        String s = title;
-        if (s.toUpperCase().startsWith("SIMULACRO ")) {
-            s = s.substring("SIMULACRO ".length());
-        }
+        String s = title.trim();
+        // Strip leading "SIMULACRO" optionally followed by "DE" (case-insensitive)
+        // Examples: "SIMULACRO Acceso a datos" -> "Acceso a datos"
+        //           "Simulacro de Acceso a datos" -> "Acceso a datos"
+        s = s.replaceFirst("^(?i)SIMULACRO\\s+(?:DE\\s+)?", "");
         int parenIdx = s.indexOf('(');
         if (parenIdx >= 0) {
             s = s.substring(0, parenIdx).trim();

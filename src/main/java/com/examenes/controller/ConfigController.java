@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.net.URL;
@@ -15,8 +14,8 @@ import java.util.ResourceBundle;
 
 public class ConfigController implements Initializable {
 
-    @FXML private TextField excelPathField;
     @FXML private TextField htmlFolderField;
+    @FXML private TextField downloadsFolderField;
     @FXML private TextField githubRepoField;
     @FXML private PasswordField githubTokenField;
     @FXML private Label statusLabel;
@@ -34,21 +33,10 @@ public class ConfigController implements Initializable {
     }
 
     private void loadSettings() {
-        excelPathField.setText(config.getExcelPath());
         htmlFolderField.setText(config.getHtmlFolder());
+        downloadsFolderField.setText(config.getDownloadsFolder());
         githubRepoField.setText(config.getGithubRepo());
         githubTokenField.setText(config.getGithubToken());
-    }
-
-    @FXML
-    private void handleBrowseExcel(ActionEvent event) {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Seleccionar archivo Excel");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel files", "*.xlsx"));
-        File file = fc.showOpenDialog(null);
-        if (file != null) {
-            excelPathField.setText(file.getAbsolutePath());
-        }
     }
 
     @FXML
@@ -62,9 +50,19 @@ public class ConfigController implements Initializable {
     }
 
     @FXML
+    private void handleBrowseDownloads(ActionEvent event) {
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setTitle("Seleccionar carpeta de descargas");
+        File dir = dc.showDialog(null);
+        if (dir != null) {
+            downloadsFolderField.setText(dir.getAbsolutePath());
+        }
+    }
+
+    @FXML
     private void handleSave(ActionEvent event) {
-        config.setExcelPath(excelPathField.getText());
         config.setHtmlFolder(htmlFolderField.getText());
+        config.setDownloadsFolder(downloadsFolderField.getText());
         config.setGithubRepo(githubRepoField.getText());
         config.setGithubToken(githubTokenField.getText());
         config.save();
