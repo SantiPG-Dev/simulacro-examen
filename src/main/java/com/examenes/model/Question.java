@@ -4,14 +4,15 @@ import java.util.List;
 
 public class Question {
 
-    private String subject;
-    private String question;
-    private List<String> options;
-    private int correctIndex;
+    private String subject;       // Asignatura a la que pertenece la pregunta
+    private String question;      // Texto del enunciado
+    private List<String> options; // Lista de opciones de respuesta
+    private int correctIndex;     // Indice de la opcion correcta (0=A, 1=B, ...)
 
     public Question() {
     }
 
+    // Constructor que inicializa todos los campos de la pregunta
     public Question(String subject, String question, List<String> options, int correctIndex) {
         this.subject = subject;
         this.question = question;

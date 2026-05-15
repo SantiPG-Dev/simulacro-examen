@@ -38,6 +38,7 @@ public class SubjectSelectController implements Initializable {
         return mainApp.getConfigService().getExcelPath();
     }
 
+    // Leo las asignaturas del Excel y creo un boton por cada una
     public void loadSubjects() {
         try {
             buttonContainer.getChildren().clear();
@@ -54,6 +55,7 @@ public class SubjectSelectController implements Initializable {
                 btn.setMaxWidth(360);
                 btn.setPrefHeight(48);
                 btn.getStyleClass().add("primary-button");
+                // Al pulsar el boton, arranco el simulacro de esa asignatura
                 btn.setOnAction(e -> startExam(subject));
                 buttonContainer.getChildren().add(btn);
             }
@@ -62,6 +64,7 @@ public class SubjectSelectController implements Initializable {
         }
     }
 
+    // Cargo las preguntas de la asignatura, las mezclo y lanzo el simulacro
     private void startExam(String subject) {
         try {
             List<Question> questions = ExcelReader.readQuestions(getExcelPath(), subject);
@@ -70,6 +73,7 @@ public class SubjectSelectController implements Initializable {
                 return;
             }
             Collections.shuffle(questions);
+            // Cojo las primeras 40 preguntas como maximo
             int numQuestions = Math.min(NUM_QUESTIONS, questions.size());
             List<Question> examQuestions = questions.subList(0, numQuestions);
             mainApp.showExam(examQuestions, subject, TIME_MINUTES);

@@ -13,28 +13,33 @@ import java.util.List;
 
 public class HtmlParser {
 
+    // Parseo un archivo HTML y extraigo las preguntas
     public static List<Question> parse(File htmlFile) throws IOException {
         Document doc = Jsoup.parse(htmlFile, "UTF-8");
         return parseDocument(doc);
     }
 
+    // Parseo HTML directamente desde un String (para GitHub o contenido en memoria)
     public static List<Question> parseContent(String html) {
         Document doc = Jsoup.parse(html);
         return parseDocument(doc);
     }
 
+    // Recorro los bloques de preguntas multichoice del HTML de Moodle
     private static List<Question> parseDocument(Document doc) {
         String subject = extractSubject(doc.title());
         List<Question> questions = new ArrayList<>();
 
         Elements questionBlocks = doc.select(".que.multichoice");
         for (Element block : questionBlocks) {
+            // Extraigo el texto de la pregunta, quitando el numero inicial
             String qtext = block.selectFirst("div.qtext .clearfix") != null
                     ? stripLeadingNumber(block.selectFirst("div.qtext .clearfix").wholeText().trim())
                     : "";
 
             if (qtext.isEmpty()) continue;
 
+            // Recojo las 4 opciones de respuesta del bloque
             List<String> options = new ArrayList<>();
             Elements optionElements = block.select("div.answer > div.r0, div.answer > div.r1");
             for (Element optEl : optionElements) {
@@ -46,6 +51,7 @@ public class HtmlParser {
 
             if (options.isEmpty()) continue;
 
+            // Busco el texto de la respuesta correcta en el bloque
             Element rightAnswerEl = block.selectFirst("div.rightanswer");
             String correctText = "";
             if (rightAnswerEl != null) {
@@ -56,6 +62,7 @@ public class HtmlParser {
                 }
             }
 
+            // Comparo el texto correcto con cada opcion para encontrar el indice
             int correctIndex = -1;
             if (!correctText.isEmpty()) {
                 String normalized = normalize(correctText);
@@ -71,7 +78,6 @@ public class HtmlParser {
 
             questions.add(new Question(subject, qtext, options, correctIndex));
         }
-
         return questions;
     }
 

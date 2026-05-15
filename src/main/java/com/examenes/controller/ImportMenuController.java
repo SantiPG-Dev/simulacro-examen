@@ -33,11 +33,13 @@ public class ImportMenuController implements Initializable {
         this.mainApp = mainApp;
     }
 
+    // Obtengo la ruta del Excel desde la configuracion
     private String getExcelPath() {
         return mainApp.getConfigService().getExcelPath();
     }
 
     @FXML
+    // Vuelvo al menu principal
     private void handleBack() {
         try {
             mainApp.showMenu();
@@ -47,6 +49,7 @@ public class ImportMenuController implements Initializable {
     }
 
     @FXML
+    // Selecciono una carpeta y escaneo todos los HTML para importarlos
     private void handleImportHtml(ActionEvent event) {
         DirectoryChooser dc = new DirectoryChooser();
         dc.setTitle("Seleccionar carpeta con archivos HTML");
