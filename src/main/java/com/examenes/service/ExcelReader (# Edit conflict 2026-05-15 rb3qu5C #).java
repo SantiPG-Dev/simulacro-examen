@@ -15,6 +15,7 @@ public class ExcelReader {
 
     private static final String[] HEADERS = {"Pregunta", "OpcionA", "OpcionB", "OpcionC", "OpcionD", "Correcta"};
 
+    // Abro el Excel y extraigo las preguntas de todas las hojas
     public static List<Question> readQuestions(String filePath) throws IOException {
         List<Question> questions = new ArrayList<>();
         File file = new File(filePath);
@@ -22,6 +23,7 @@ public class ExcelReader {
 
         try (InputStream is = new FileInputStream(filePath);
              Workbook workbook = new XSSFWorkbook(is)) {
+            // Recorro cada hoja y uso su nombre como asignatura
             for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                 Sheet sheet = workbook.getSheetAt(i);
                 questions.addAll(readSheet(sheet, sheet.getSheetName()));
@@ -42,12 +44,15 @@ public class ExcelReader {
         }
     }
 
+    // Parsea las filas de una hoja y las convierte en objetos Question
     private static List<Question> readSheet(Sheet sheet, String subject) {
         List<Question> questions = new ArrayList<>();
+        // Empiezo desde la fila 1 porque la 0 es la cabecera
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if (row == null) continue;
 
+            // Leo las 6 columnas: pregunta, 4 opciones, respuesta correcta
             String question = getCellValue(row.getCell(0));
             String optA = getCellValue(row.getCell(1));
             String optB = getCellValue(row.getCell(2));
@@ -63,6 +68,7 @@ public class ExcelReader {
             options.add(optC);
             options.add(optD);
 
+            // Convierto la letra de la respuesta correcta a indice numerico
             int correctIndex = switch (correctStr.toUpperCase()) {
                 case "A" -> 0;
                 case "B" -> 1;
