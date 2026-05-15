@@ -35,10 +35,66 @@ public class MainApp extends Application {
         this.primaryStage = stage;
         configService = new ConfigService();
         isDarkTheme = configService.isDarkTheme();
+        setupUninstaller();
         showMenu();
         stage.setTitle("Simulacros de Examen");
         stage.setResizable(false);
         stage.show();
+    }
+
+    /** Instala el desinstalador en el menu de inicio */
+    private void setupUninstaller() {
+        try {
+            // Buscar ProductCode en el registro de Windows
+            String productCode = findProductCode();
+            if (productCode == null) return;
+
+            String startMenu = System.getProperty("user.home")
+                + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Simulacro de Examen";
+            new java.io.File(startMenu).mkdirs();
+
+            // Crear acceso directo a msiexec /x {productCode} usando VBScript
+            String vbs = "Set WshShell = WScript.CreateObject(\"WScript.Shell\")\n"
+                + "Set Shortcut = WshShell.CreateShortcut(\"" + startMenu
+                + "\\\\Desinstalar.lnk\")\n"
+                + "Shortcut.TargetPath = \"C:\\\\WINDOWS\\\\system32\\\\msiexec.exe\"\n"
+                + "Shortcut.Arguments = \"/x {" + productCode + "}\"\n"
+                + "Shortcut.WorkingDirectory = \"C:\\\\WINDOWS\\\\system32\"\n"
+                + "Shortcut.Description = \"Desinstalar Simulacro de Examen\"\n"
+                + "Shortcut.IconLocation = \"%%SystemRoot%%\\\\system32\\\\msiexec.exe,0\"\n"
+                + "Shortcut.Save\n";
+
+            java.io.File vbsFile = new java.io.File(
+                System.getProperty("java.io.tmpdir"), "mklnk.vbs");
+            java.nio.file.Files.writeString(vbsFile.toPath(), vbs);
+            Runtime.getRuntime().exec(new String[]{
+                "wscript.exe", vbsFile.getAbsolutePath()}).waitFor();
+            vbsFile.delete();
+        } catch (Exception ignored) {}
+    }
+
+    /** Busca el ProductCode en el registro */
+    private static String findProductCode() {
+        try {
+            Process p = Runtime.getRuntime().exec(new String[]{
+                "reg", "query", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+                "/s", "/f", "Simulacro de Examen", "/e"
+            });
+            java.io.BufferedReader br = new java.io.BufferedReader(
+                new java.io.InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.contains("{") && line.contains("}")) {
+                    int s = line.indexOf('{');
+                    int e = line.indexOf('}');
+                    if (s >= 0 && e > s) {
+                        return line.substring(s + 1, e);
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        return null;
     }
 
     public void showMenu() throws Exception {
