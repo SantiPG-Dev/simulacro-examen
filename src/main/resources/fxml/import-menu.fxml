@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.examenes.controller.ImportMenuController"
+      spacing="15" alignment="TOP_CENTER" styleClass="root">
+
+    <padding>
+        <Insets top="15" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <Label text="Importar Datos" styleClass="title"/>
+
+    <Label text="Selecciona el origen de importacion"
+           styleClass="subtitle" wrapText="true"/>
+
+    <Region prefHeight="40"/>
+
+    <Button text="Desde HTML" onAction="#handleImportHtml"
+            maxWidth="360" prefHeight="48"/>
+
+    <Button text="Desde Excel" onAction="#handleImportExcel"
+            maxWidth="360" prefHeight="48"/>
+
+    <Button text="Desde GitHub" onAction="#handleImportFromGitHub"
+            maxWidth="360" prefHeight="48"/>
+
+    <Region prefHeight="20"/>
+
+    <Button text="Volver" onAction="#handleBack"
+            maxWidth="360" prefHeight="40" styleClass="secondary-button"/>
+
+    <Label fx:id="statusLabel" wrapText="true" styleClass="status-label"/>
+
+</VBox>

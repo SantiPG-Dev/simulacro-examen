@@ -16,18 +16,18 @@
     <Region prefHeight="20"/>
 
     <VBox spacing="8" maxWidth="450">
-        <Label text="Ruta del archivo Excel" styleClass="config-label"/>
-        <HBox spacing="8">
-            <TextField fx:id="excelPathField" maxWidth="450" HBox.hgrow="ALWAYS"/>
-            <Button text="Examinar..." onAction="#handleBrowseExcel" styleClass="small-button"/>
-        </HBox>
-    </VBox>
-
-    <VBox spacing="8" maxWidth="450">
         <Label text="Carpeta de archivos HTML" styleClass="config-label"/>
         <HBox spacing="8">
             <TextField fx:id="htmlFolderField" maxWidth="450" HBox.hgrow="ALWAYS"/>
             <Button text="Examinar..." onAction="#handleBrowseHtml" styleClass="small-button"/>
+        </HBox>
+    </VBox>
+
+    <VBox spacing="8" maxWidth="450">
+        <Label text="Carpeta de descargas" styleClass="config-label"/>
+        <HBox spacing="8">
+            <TextField fx:id="downloadsFolderField" maxWidth="450" HBox.hgrow="ALWAYS"/>
+            <Button text="Examinar..." onAction="#handleBrowseDownloads" styleClass="small-button"/>
         </HBox>
     </VBox>
 

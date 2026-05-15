@@ -23,22 +23,19 @@
     <Button text="Iniciar Simulacro" onAction="#handleStart"
             maxWidth="360" prefHeight="48" styleClass="primary-button"/>
 
-    <Button text="Importar Datos" onAction="#handleImport"
+    <Button text="Datos" onAction="#handleData"
             maxWidth="360" prefHeight="48"/>
 
-    <Button text="Exportar Datos" onAction="#handleExport"
+    <Button text="Revisar Duplicados" onAction="#handleReviewDuplicates"
             maxWidth="360" prefHeight="48"/>
 
     <Button text="Configuracion" onAction="#handleConfig"
             maxWidth="360" prefHeight="48" styleClass="secondary-button"/>
 
+    <ThemeToggle fx:id="themeToggle"/>
+
     <Region prefHeight="20"/>
 
     <Label fx:id="statusLabel" wrapText="true" styleClass="status-label"/>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Region HBox.hgrow="ALWAYS"/>
-        <ThemeToggle fx:id="themeToggle"/>
-    </HBox>
 
 </VBox>

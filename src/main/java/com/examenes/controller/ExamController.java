@@ -363,6 +363,7 @@ public class ExamController implements Initializable {
             updateTimerDisplay();
             if (remainingSeconds <= 0) {
                 timer.stop();
+                saveCurrentAnswer();
                 showAlert("Tiempo agotado", "Se ha acabado el tiempo del simulacro.");
                 finishExam();
             }

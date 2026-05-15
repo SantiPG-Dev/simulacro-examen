@@ -2,7 +2,9 @@ package com.examenes;
 
 import com.examenes.controller.ExamController;
 import com.examenes.controller.ConfigController;
+import com.examenes.controller.DataMenuController;
 import com.examenes.controller.HistoryController;
+import com.examenes.controller.ImportMenuController;
 import com.examenes.controller.MenuController;
 import com.examenes.controller.SubjectSelectController;
 import com.examenes.model.Question;
@@ -61,6 +63,22 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/config.fxml"));
         VBox root = loader.load();
         ConfigController controller = loader.getController();
+        controller.setMainApp(this);
+        setScene(root);
+    }
+
+    public void showImportMenu() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/import-menu.fxml"));
+        VBox root = loader.load();
+        ImportMenuController controller = loader.getController();
+        controller.setMainApp(this);
+        setScene(root);
+    }
+
+    public void showDataMenu() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/data-menu.fxml"));
+        VBox root = loader.load();
+        DataMenuController controller = loader.getController();
         controller.setMainApp(this);
         setScene(root);
     }
