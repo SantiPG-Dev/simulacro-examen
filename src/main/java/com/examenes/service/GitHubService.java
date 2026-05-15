@@ -113,4 +113,64 @@ public class GitHubService {
         return response.body();
     }
 
+    /**
+     * Comprueba si un archivo existe en el repo y devuelve su SHA si existe.
+     */
+    public String getFileSha(String repo, String path, String branch, String token)
+            throws IOException, InterruptedException {
+        String url = API_BASE + repo + "/contents/" + path;
+        if (branch != null && !branch.isEmpty()) {
+            url += "?ref=" + branch;
+        }
+
+        HttpRequest.Builder builder = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Accept", "application/vnd.github.v3+json");
+
+        if (token != null && !token.isEmpty()) {
+            builder.header("Authorization", "Bearer " + token);
+        }
+
+        HttpResponse<String> response = client.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() == 404) return null;
+        if (response.statusCode() != 200) {
+            throw new IOException("GitHub API error " + response.statusCode());
+        }
+
+        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
+        return obj.get("sha").getAsString();
+    }
+
+    /**
+     * Sube un archivo al repositorio. Si ya existe, lo actualiza (necesita sha).
+     */
+    public void uploadFile(String repo, String path, byte[] content, String message,
+                           String branch, String token, String sha)
+            throws IOException, InterruptedException {
+        String url = API_BASE + repo + "/contents/" + path;
+
+        JsonObject body = new JsonObject();
+        body.addProperty("message", message);
+        body.addProperty("content", Base64.getEncoder().encodeToString(content));
+        body.addProperty("branch", branch);
+        if (sha != null && !sha.isEmpty()) {
+            body.addProperty("sha", sha);
+        }
+
+        HttpRequest.Builder builder = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Accept", "application/vnd.github.v3+json")
+                .header("Content-Type", "application/json")
+                .method("PUT", HttpRequest.BodyPublishers.ofString(gson.toJson(body)));
+
+        if (token != null && !token.isEmpty()) {
+            builder.header("Authorization", "Bearer " + token);
+        }
+
+        HttpResponse<String> response = client.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 201 && response.statusCode() != 200) {
+            throw new IOException("Error subiendo archivo: HTTP " + response.statusCode() + " - " + response.body());
+        }
+    }
+
 }

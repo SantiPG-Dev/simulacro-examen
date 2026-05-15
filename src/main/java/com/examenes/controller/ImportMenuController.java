@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -47,22 +48,41 @@ public class ImportMenuController implements Initializable {
 
     @FXML
     private void handleImportHtml(ActionEvent event) {
-        ConfigService config = mainApp.getConfigService();
-        String htmlFolder = config.getHtmlFolder();
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Importar preguntas desde HTML");
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setTitle("Seleccionar carpeta con archivos HTML");
+        String htmlFolder = mainApp.getConfigService().getHtmlFolder();
         File htmlDir = new File(htmlFolder);
         if (htmlDir.exists()) {
-            fc.setInitialDirectory(htmlDir.getAbsoluteFile());
+            dc.setInitialDirectory(htmlDir.getAbsoluteFile());
         }
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML files", "*.html", "*.htm"));
-        File selected = fc.showOpenDialog(null);
-        if (selected == null) return;
+        File selectedDir = dc.showDialog(null);
+        if (selectedDir == null) return;
 
         try {
-            List<Question> all = HtmlParser.parse(selected);
+            List<File> htmlFiles = new ArrayList<>();
+            collectHtmlFiles(selectedDir, htmlFiles);
+
+            if (htmlFiles.isEmpty()) {
+                statusLabel.setText("No se encontraron archivos HTML en la carpeta seleccionada.");
+                return;
+            }
+
+            List<Question> all = new ArrayList<>();
+            int parsedFiles = 0;
+            for (File f : htmlFiles) {
+                try {
+                    List<Question> parsed = HtmlParser.parse(f);
+                    if (!parsed.isEmpty()) {
+                        all.addAll(parsed);
+                        parsedFiles++;
+                    }
+                } catch (Exception ignored) {
+                    // saltamos archivos que no se pueden parsear
+                }
+            }
+
             if (all.isEmpty()) {
-                statusLabel.setText("No se encontraron preguntas en el archivo.");
+                statusLabel.setText("No se encontraron preguntas en los archivos HTML.");
                 return;
             }
 
@@ -75,9 +95,23 @@ public class ImportMenuController implements Initializable {
                 totalAdded += entry.getValue().size();
             }
 
-            statusLabel.setText("Importadas " + totalAdded + " preguntas de " + bySubject.size() + " asignaturas.");
+            statusLabel.setText("Importadas " + totalAdded + " preguntas de " + parsedFiles + " archivos (" + bySubject.size() + " asignaturas).");
         } catch (Exception e) {
             statusLabel.setText("Error al importar: " + e.getMessage());
+        }
+    }
+
+    /** Recoge recursivamente todos los .html/.htm del directorio */
+    private static void collectHtmlFiles(File dir, List<File> result) {
+        File[] files = dir.listFiles();
+        if (files == null) return;
+        for (File f : files) {
+            if (f.isDirectory()) {
+                collectHtmlFiles(f, result);
+            } else if (f.getName().toLowerCase().endsWith(".html")
+                    || f.getName().toLowerCase().endsWith(".htm")) {
+                result.add(f);
+            }
         }
     }
 

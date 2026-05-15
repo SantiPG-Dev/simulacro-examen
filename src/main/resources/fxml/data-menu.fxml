@@ -21,7 +21,10 @@
     <Button text="Importar" onAction="#handleImport"
             maxWidth="360" prefHeight="48"/>
 
-    <Button text="Arreglar carpeta descargas" onAction="#handleOrganizeDownloads"
+    <Button text="Fix webs local" onAction="#handleFixWebs"
+            maxWidth="360" prefHeight="48"/>
+
+    <Button text="Fix webs GitHub" onAction="#handleFixWebsGitHub"
             maxWidth="360" prefHeight="48"/>
 
     <Region prefHeight="20"/>
