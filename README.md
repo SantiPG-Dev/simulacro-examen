@@ -31,13 +31,15 @@
 - **Repaso**: revisa todas las preguntas con las respuestas correctas marcadas
 
 ### 📂 Gestión de datos
+El botón **Datos** del menú principal abre un submenú con tres opciones:
+
 | Opción | Descripción |
 |--------|-------------|
 | **Importar** → HTML | Selecciona una carpeta y escanea recursivamente todos los `.html` extraídos de Moodle |
 | **Importar** → Excel | Importa preguntas desde otro archivo Excel |
 | **Importar** → GitHub | Descarga y parsea HTML directamente desde un repositorio de GitHub |
 | **Fix webs local** | Escanea la carpeta de descargas, organiza los `SIMULACRO*.html` por asignatura en `html/{asignatura}/` |
-| **Fix webs GitHub** | Sube los `SIMULACRO*.html` organizados por asignatura directamente a tu repositorio de GitHub |
+| **Fix webs GitHub** | Sube los `SIMULACRO*.html` organizados por asignatura directamente al repositorio de GitHub |
 | **Revisar Duplicados** | Detecta y elimina preguntas duplicadas del banco de preguntas |
 
 ### ⚙️ Configuración
@@ -63,14 +65,9 @@
 | **Apache POI** | 5.2.5 | Lectura/escritura de archivos Excel (.xlsx) |
 | **Gson** | 2.10.1 | Serialización JSON del historial |
 | **Jsoup** | 1.17.2 | Parseo de archivos HTML (exportaciones Moodle) |
+| **WiX Toolset** | 3.11 | Generación del instalador .exe |
 
 ---
-
-## 📦 Requisitos
-
-- **Java 21** o superior ([descargar](https://adoptium.net/))
-- **Maven** 3.9+ ([descargar](https://maven.apache.org/download.cgi))
-- **Git** (opcional, para usar la funcionalidad GitHub)
 
 ## 🚀 Compilar y ejecutar
 
@@ -81,6 +78,58 @@ mvn clean package
 # Ejecutar (JAR autónomo con todas las dependencias)
 java -jar target/simulacro-examen-1.0.0.jar
 ```
+
+## 📦 Generar instalador (.exe)
+
+El proyecto incluye un script que **automatiza todo** y genera un instalador funcional con JavaFX incluido.
+
+```bash
+# Desde PowerShell o CMD en la carpeta del proyecto
+build-installer.bat
+```
+
+El script:
+1. Compila la app con Maven
+2. Genera el icono (si tienes Python + Pillow)
+3. Descarga WiX automáticamente si no lo tienes
+4. Genera el instalador .exe en `installer/`
+
+### Requisitos
+
+| Herramienta | Necesaria | Cómo obtenerla |
+|-------------|-----------|----------------|
+| **JDK 21** | Sí (con JavaFX) | [Liberica JDK Full](https://bell-sw.com/pages/downloads/) — JDK 21 LTS, Full, Windows, x64 |
+| **Maven** | Sí | [Apache Maven](https://maven.apache.org/download.cgi) |
+| **Python** | Opcional (icono) | `winget install Python.Python` o `pip install Pillow` |
+
+### Instalación
+
+El instalador .exe guía al usuario con el asistente típico de Windows:
+1. Selección de carpeta de instalación (con botón Browse)
+2. Confirmación de acceso directo en escritorio
+3. Barra de progreso
+4. Botón Finish
+
+> El instalador pesa ~58 MB e incluye un JRE optimizado solo con los módulos necesarios.
+> La aplicación funciona sin Java instalado en el equipo de destino.
+
+### Desinstalación
+
+Dos formas de desinstalar la aplicación:
+
+- **Desde el Menú Inicio** → Simulacro de Examen → **Desinstalar** (limpia todos los datos)
+- O desde **Configuración** de Windows → Agregar o quitar programas
+
+El desinstalador elimina la aplicación, los accesos directos y los datos de usuario (`%USERPROFILE%\.simulacro-examen\`).
+
+### Primer inicio
+
+Sin configuración previa, la app detecta automáticamente:
+- Carpeta de descargas → `C:\Users\[usuario]\Downloads`
+- Carpeta HTML → `[directorio de instalación]\html`
+- Excel de preguntas → `[directorio de instalación]\excel\BateriaPreguntas.xlsx`
+
+---
 
 ## 📁 Estructura del proyecto
 
@@ -96,25 +145,36 @@ simulacro-examen/
 │   └── main/
 │       ├── java/com/examenes/
 │       │   ├── controller/         # Controladores JavaFX
+│       │   │   ├── ConfigController.java
+│       │   │   ├── DataMenuController.java    ← Submenú datos
+│       │   │   ├── ExamController.java
+│       │   │   ├── HistoryController.java
+│       │   │   ├── ImportMenuController.java
+│       │   │   ├── MenuController.java
+│       │   │   └── SubjectSelectController.java
 │       │   ├── model/              # Modelos (Question, ExamResult, etc.)
 │       │   ├── service/            # Lógica de negocio (Excel, HTML, GitHub)
 │       │   └── util/               # Utilidades (ThemeToggle)
 │       └── resources/
 │           ├── fxml/               # Vistas FXML
+│           ├── desinstalar.bat     # Script de desinstalación
 │           ├── style.css           # Estilo claro
 │           └── dark-theme.css      # Estilo oscuro
+├── build-installer.bat             # Script para generar el instalador
+├── gen_icon.py                     # Script para generar el icono
+├── app.ico                         # Icono de la aplicación
 ├── pom.xml
 └── README.md
 ```
 
 ## ⚙️ Configuración
 
-La configuración se guarda en `~/.simulacro-examen/config.properties`.
+La configuración se guarda en `%USERPROFILE%\.simulacro-examen\config.properties`.
 
 | Clave | Descripción | Valor por defecto |
 |-------|-------------|-------------------|
-| `html.folder` | Carpeta de archivos HTML | `html` |
-| `downloads.folder` | Carpeta de descargas | *(vacío)* |
+| `html.folder` | Carpeta de archivos HTML | `[app]\html` |
+| `downloads.folder` | Carpeta de descargas | `C:\Users\[user]\Downloads` |
 | `github.repo` | Repositorio GitHub (usuario/repo) | *(vacío)* |
 | `github.token` | Token de acceso GitHub | *(vacío)* |
 | `theme` | Tema de la interfaz | `light` |
@@ -192,7 +252,7 @@ La aplicación extrae automáticamente la asignatura de todo lo que hay entre `S
 
 ## 📄 Licencia
 
-Copyright © 2025 **@SantiPG-Dev**
+Copyright © 2026 **@santipg-dev**
 
 Este software es de **libre uso** — puedes ejecutarlo, copiarlo y compartirlo con quien quieras.
 
@@ -205,5 +265,5 @@ Consulta el archivo [LICENSE](LICENSE) para más detalles.
 <p align="center">
   <sub>Hecho con 💻 para estudiantes de CesurFP</sub>
   <br>
-  <sub>© 2025 @SantiPG-Dev</sub>
+  <sub>© 2026 @santipg-dev</sub>
 </p>
