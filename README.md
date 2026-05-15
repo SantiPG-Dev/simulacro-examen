@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows"/>
 </p>
 
-<h1 align="center">📝 Simulacro de Examen</h1>
+<h1 align="center">📝 Simulacros de Examen</h1>
 
 <p align="center">
   <b>Aplicación de escritorio para practicar exámenes tipo test</b><br>
@@ -15,10 +15,14 @@
 </p>
 
 <p align="center">
-  <i>Desarrollada para estudiantes de CesurFP — Programación, BBDD, Sistemas, y más.</i>
+  <i>Desarrollada para estudiantes a distancia.</i>
 </p>
 
 ---
+
+- Si tienes simulacros en tu academia a distancia, haz varios y guarda el html de la correccion del simulacro.
+- Puedes compartir con compañeros la información, gracias a github.
+
 
 ## ✨ Funcionalidades
 
